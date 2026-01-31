@@ -1,1 +1,1 @@
-# argo-example-apps
+# ArgoCD Setup on Local K8S
