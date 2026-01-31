@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: ngnix
-        image: docker.io/library/ngnix:1.25
+        image: docker.io/library/ngnix:stable-alpine3.23
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 80
