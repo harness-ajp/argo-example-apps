@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: nginx
-        image: docker.io/library/nginx:stable-alpine3.23
+        image: docker.io/library/nginx:1.29.4
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 80
