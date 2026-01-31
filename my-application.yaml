@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: my-guestbook
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: 'git@github.com:harness-ajp/argo-example-apps.git' # Your repo
+    targetRevision: HEAD
+    path: guestbook                                              # Folder with YAMLs
+  destination:
+    server: 'https://kubernetes.default.svc'                     # Local cluster
+    namespace: argo-sandbox                                     # Target namespace
+  syncPolicy:
+    automated:
+      prune: true    # Deletes stuff in K8s if you delete it from Git
+      selfHeal: true # Fixes stuff if you manually change it via kubectl
+    syncOptions:
+    - CreateNamespace=true # Tells Argo to create 'argi-sandbox' if it doesn't exist
