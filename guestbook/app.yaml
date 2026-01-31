@@ -14,10 +14,10 @@ spec:
     spec:
       containers:
       - name: guestbook-ui
-        image: nginx:1.25
+        image: public.ecr.aws/bitnami/nginx:1.25
         imagePullPolicy: IfNotPresent
         ports:
-        - containerPort: 80
+        - containerPort: 8080
 ---
 apiVersion: v1
 kind: Service
