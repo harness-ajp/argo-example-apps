@@ -8,7 +8,7 @@ metadata:
     app: scala-hello-world
     component: backend
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: scala-hello-world
@@ -80,7 +80,7 @@ metadata:
     app: scala-hello-world
     component: frontend
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: scala-hello-world
