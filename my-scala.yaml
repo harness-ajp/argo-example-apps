@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: my-scala
+  namespace: scala-app
+spec:
+  project: default
+  source:
+    repoURL: 'git@github.com:harness-ajp/argo-example-apps.git' # Your repo
+    targetRevision: HEAD
+    path: scala-hello                                              # Folder with YAMLs
+  destination:
+    server: 'https://kubernetes.default.svc'                     # Local cluster
+    namespace: scala-app
+  syncPolicy:
+    automated:
+      prune: true    # Deletes stuff in K8s if you delete it from Git
+      selfHeal: true # Fixes stuff if you manually change it via kubectl
+    syncOptions:
+    - CreateNamespace=true # Tells Argo to create 'argo-sandbox' if it doesn't exist
