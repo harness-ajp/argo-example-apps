@@ -4,5 +4,4 @@
   "environment" : "Development",
   "image_tag" : "13",
   "server_address" : "https://kubernetes.default.svc",
-  "fb_designator": "backend"
 }
