@@ -5,7 +5,7 @@ metadata:
 spec:
   generators:
   - git:
-      repoURL: https://github.com/harness-ajp/argo-example-apps.git
+      repoURL: git@github.com:harness-ajp/argo-example-apps.git
       revision: HEAD
       files:
       - path: "scala-hello/cluster-config/backend/config.json"
@@ -19,7 +19,7 @@ spec:
     spec:
       project: default
       source:
-        repoURL: https://github.com/harness-ajp/argo-example-apps.git
+        repoURL: git@github.com:harness-ajp/argo-example-apps.git
         targetRevision: HEAD
         path: "scala-hello/base"
         kustomize:
