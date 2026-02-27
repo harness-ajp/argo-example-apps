@@ -11,11 +11,11 @@ spec:
       - path: "scala-hello/cluster-config/backend/config.json"
   template:
     metadata:
-      name: '{{environment}}-scala-hello-world'
+      name: '{{.environment}}-scala-hello-world'
       labels:
-        harness.io/envRef: '{{environment}}'
-        harness.io/serviceRef: '{{harness_service}}'
-        harness.io/buildRef: '{{image_tag}}'
+        harness.io/envRef: '{{.environment}}'
+        harness.io/serviceRef: '{{.harness_service}}'
+        harness.io/buildRef: '{{.image_tag}}'
     spec:
       project: default
       source:
@@ -24,10 +24,10 @@ spec:
         path: "scala-hello/base"
         kustomize:
           images:
-          - ajpahl1008/scala-hello-world-backend:{{image_tag}}
+          - ajpahl1008/scala-hello-world-backend:{{.image_tag}}
       destination:
-        server: '{{server_address}}'
-        namespace: 'scala-apps-{{environment}}'
+        server: '{{.server_address}}'
+        namespace: 'scala-apps-{{.environment}}'
       syncPolicy:
         automated:
           selfHeal: true
