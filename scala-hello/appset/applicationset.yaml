@@ -8,10 +8,10 @@ spec:
       repoURL: https://github.com/harness-ajp/argo-example-apps.git
       revision: HEAD
       files:
-      - path: "scala-hello/cluster-config/**/config.json"
+      - path: "scala-hello/cluster-config/backend/config.json"
   template:
     metadata:
-      name: '{{cluster_name}}-ScalaHelloWorld'
+      name: '{{environment}}-ScalaHelloWorld'
       labels:
         harness.io/envRef: '{{environment}}'
         harness.io/serviceRef: '{{harness_service}}'
