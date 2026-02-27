@@ -1,6 +1,6 @@
 {
   "harness_service" : "Scala_Hello_world_Frontend",
-  "environment" : "Development",
+  "environment" : "development",
   "image_tag" : "13",
   "server_address" : "https://kubernetes.default.svc",
 }

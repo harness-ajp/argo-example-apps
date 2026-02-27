@@ -11,7 +11,7 @@ spec:
       - path: "scala-hello/cluster-config/backend/config.json"
   template:
     metadata:
-      name: '{{environment}}-ScalaHelloWorld'
+      name: '{{environment}}-scala-hello-world'
       labels:
         harness.io/envRef: '{{environment}}'
         harness.io/serviceRef: '{{harness_service}}'
