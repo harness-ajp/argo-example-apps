@@ -1,6 +1,7 @@
 {
   "harness_service" : "Scala_Hello_World_Backend",
-  "environment" : "development",
-  "image_tag" : "18",
-  "server_address" : "https://kubernetes.default.svc"
+  "component": "backend",
+  "image_name": "ajpahl1008/scala-hello-world-backend",
+  "image_tag": "18",
+  "server_address": "https://kubernetes.default.svc"
 }
