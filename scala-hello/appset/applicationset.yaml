@@ -23,10 +23,10 @@ spec:
           images:
             - name: backend-image
               newName: ajpahl1008/scala-hello-world-backend
-              newTag: '{{.backend_tag}}'
+              newTag: '{{.image_tag}}'
             - name: frontend-image
               newName: ajpahl1008/scala-hello-world-frontend
-              newTag: '{{.frontend_tag}}'
+              newTag: '{{.image_tag}}'
       destination:
         server: '{{.server_address}}'
         namespace: 'scala-apps-{{.environment}}'
