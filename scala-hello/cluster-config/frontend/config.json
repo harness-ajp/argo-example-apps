@@ -1,5 +1,6 @@
 {
   "harness_service" : "Scala_Hello_world_Frontend",
+  "environment": "dev",
   "component": "frontend",
   "image_name": "ajpahl1008/scala-hello-world-frontend",
   "image_tag": "18",
