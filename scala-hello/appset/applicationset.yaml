@@ -12,6 +12,9 @@ spec:
   template:
     metadata:
       name: 'scala-hello-{{.component}}'
+      annotations:
+	 harness.io/service-ref: '{{.harness_service}}'
+         harness.io/environment-ref: '{{.environment}}'
     spec:
       project: default
       source:
