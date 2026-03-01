@@ -17,7 +17,7 @@ spec:
       source:
         repoURL: git@github.com:harness-ajp/argo-example-apps.git
         targetRevision: HEAD
-        path: 'scala-hello/base/{{.component}}'
+        path: 'base/{{.component}}'
         kustomize:
           images:
             - '{{.image_name}}:{{.image_tag}}'
