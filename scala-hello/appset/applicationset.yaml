@@ -23,7 +23,7 @@ spec:
             - '{{.image_name}}:{{.image_tag}}'
       destination:
         server: '{{.server_address}}'
-        namespace: 'scala-apps-{{.environment}}'  # note: no "environment" key in your configs yet
+        namespace: 'scala-apps-{{.environment}}'
       syncPolicy:
         automated:
           selfHeal: true
