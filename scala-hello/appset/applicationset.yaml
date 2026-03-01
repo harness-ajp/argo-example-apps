@@ -4,36 +4,30 @@ metadata:
   name: pipelines-appsets-argocd-rollouts
 spec:
   generators:
-    - matrix:
-        generators:
-          - git:
-              repoURL: git@github.com:harness-ajp/argo-example-apps.git
-              revision: HEAD
-              files:
-                - path: "scala-hello/cluster-config/backend/config.json"
-          - git:
-              repoURL: git@github.com:harness-ajp/argo-example-apps.git
-              revision: HEAD
-              files:
-                - path: "scala-hello/cluster-config/frontend/config.json"
+    - git:
+        repoURL: git@github.com:harness-ajp/argo-example-apps.git
+        revision: HEAD
+        files:
+          - path: "scala-hello/cluster-config/*/config.json"
   template:
+    metadata:
+      name: 'scala-hello-{{.component}}'
     spec:
+      project: default
       source:
+        repoURL: git@github.com:harness-ajp/argo-example-apps.git
+        targetRevision: HEAD
+        path: 'scala-hello/base/{{.component}}'
         kustomize:
           images:
-            - name: backend-image
-              newName: ajpahl1008/scala-hello-world-backend
-              newTag: '{{.image_tag}}'
-            - name: frontend-image
-              newName: ajpahl1008/scala-hello-world-frontend
-              newTag: '{{.image_tag}}'
+            - '{{.image_name}}:{{.image_tag}}'
       destination:
         server: '{{.server_address}}'
-        namespace: 'scala-apps-{{.environment}}'
+        namespace: 'scala-apps-{{.environment}}'  # note: no "environment" key in your configs yet
       syncPolicy:
         automated:
           selfHeal: true
         syncOptions:
-        - PruneLast=true
-        - CreateNamespace=true
-        - ApplyOutOfSyncOnly=true
+          - PruneLast=true
+          - CreateNamespace=true
+          - ApplyOutOfSyncOnly=true
