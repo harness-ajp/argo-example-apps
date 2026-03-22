@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: canary
-        image: docker.io/ajpahl1008/scala-hello-world-backend:41
+        image: docker.io/ajpahl1008/scala-hello-world-backend:<+pipeline.sequenceId>
         imagePullPolicy: Always
         ports:
         - name: http
