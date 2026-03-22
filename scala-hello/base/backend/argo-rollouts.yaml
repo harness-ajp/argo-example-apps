@@ -11,10 +11,10 @@ spec:
   template:
     metadata:
       labels:
-        app: canary
+        app: scala-hello-world
     spec:
       containers:
-      - name: canary
+      - name: scala-hello-world
         image: docker.io/ajpahl1008/scala-hello-world-backend:<+pipeline.sequenceId>
         imagePullPolicy: Always
         ports:
