@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: scala-hello-world
-        image: docker.io/ajpahl1008/scala-hello-world-backend:<+pipeline.sequenceId>
+        image: docker.io/ajpahl1008/scala-hello-world-backend:41
         imagePullPolicy: Always
         ports:
         - name: http
