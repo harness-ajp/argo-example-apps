@@ -7,7 +7,7 @@ spec:
   revisionHistoryLimit: 1
   selector:
     matchLabels:
-      app: canary
+      app: scala-hello-world
   template:
     metadata:
       labels:
