@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: canary
-        image: argoproj/rollouts-demo:blue
+        image: docker.io/ajpahl1008/scala-hello-world-backend:11
         imagePullPolicy: Always
         ports:
         - name: http
