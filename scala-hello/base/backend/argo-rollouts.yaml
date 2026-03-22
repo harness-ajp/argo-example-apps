@@ -29,7 +29,7 @@ spec:
             cpu: 5m
   strategy:
     canary:
-      canaryService: scala-hello-world
+      canaryService: scala-backend-rollout
       steps:
       - setWeight: 20
       - pause: {}
