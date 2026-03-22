@@ -8,10 +8,12 @@ spec:
   selector:
     matchLabels:
       app: scala-hello-world
+      component: backend
   template:
     metadata:
       labels:
         app: scala-hello-world
+        component: backend
     spec:
       containers:
       - name: scala-hello-world
