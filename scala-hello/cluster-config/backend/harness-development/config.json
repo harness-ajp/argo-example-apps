@@ -1,7 +1,0 @@
-{
-  "image_name": "docker.io/ajpahl1008/scala-hello-world-backend",
-  "harness_service": "Scala_Hello_World_Backend",
-  "environment": "development",
-  "component": "backend",
-  "image_tag": "7"
-}
