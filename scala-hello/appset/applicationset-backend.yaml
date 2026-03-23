@@ -1,0 +1,36 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: scala-hello-world-backend-appset
+spec:
+  generators:
+    - git:
+        repoURL: git@github.com:harness-ajp/argo-example-apps.git
+        revision: HEAD
+        files:
+          - path: "scala-hello/cluster-config/backend/*/config.json"
+  template:
+    metadata:
+      name: 'scala-hello-{{.component}}-{{.environment}}'
+      labels:
+        harness.io/serviceRef: '{{.harness_service}}'
+        harness.io/envRef: '{{.environment}}'
+    spec:
+      project: default
+      source:
+        repoURL: git@github.com:harness-ajp/argo-example-apps.git
+        targetRevision: HEAD
+        path: 'scala-hello/base/{{.component}}'
+        kustomize:
+          images:
+            - '{{.image_name}}:{{.image_tag}}'
+      destination:
+        server: '{{.server_address}}'
+        namespace: 'scala-apps-{{.environment}}'
+      syncPolicy:
+        automated:
+          selfHeal: true
+        syncOptions:
+          - PruneLast=true
+          - CreateNamespace=true
+          - ApplyOutOfSyncOnly=true
