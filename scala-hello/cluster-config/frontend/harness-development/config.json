@@ -1,0 +1,7 @@
+{
+  "image_name": "docker.io/ajpahl1008/scala-hello-world-frontend",
+  "harness_service": "Scala_Hello_World_Frontend",
+  "environment": "development",
+  "component": "frontend",
+  "image_tag": "7"
+}
