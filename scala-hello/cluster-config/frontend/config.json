@@ -3,6 +3,6 @@
   "harness_service" : "Scala_Hello_World_Frontend",
   "environment" : "development",
   "component" : "frontend",
-  "image_tag" : "2",
+  "image_tag" : "3",
   "server_address" : "https://kubernetes.default.svc"
 }
