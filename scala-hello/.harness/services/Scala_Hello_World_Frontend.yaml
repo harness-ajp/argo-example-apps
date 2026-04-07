@@ -1,0 +1,78 @@
+service:
+  name: Scala Hello World - Frontend
+  identifier: Scala_Hello_World_Frontend
+  serviceDefinition:
+    type: Kubernetes
+    spec:
+      manifests:
+        - manifest:
+            identifier: ScalaFrontend
+            type: ReleaseRepo
+            spec:
+              store:
+                type: Github
+                spec:
+                  connectorRef: account.githubharnessajp
+                  gitFetchType: Branch
+                  paths:
+                    - scala-hello/cluster-config/frontend/<+env.identifier>/config.json
+                  branch: main
+                  repoName: argo-example-apps
+        - manifest:
+            identifier: FrontendConfig
+            type: DeploymentRepo
+            spec:
+              store:
+                type: Github
+                spec:
+                  connectorRef: account.githubharnessajp
+                  gitFetchType: Branch
+                  paths:
+                    - scala-hello/appset/applicationset-frontend.yaml
+                  branch: main
+                  repoName: argo-example-apps
+      artifacts:
+        primary:
+          primaryArtifactRef: ScalaFrontend
+          sources:
+            - spec:
+                connectorRef: account.harnessdockerhubajp
+                imagePath: ajpahl1008/scala-hello-world-backend
+                tag: <+pipeline.sequenceId>
+                digest: ""
+              identifier: ScalaFrontend
+              type: DockerRegistry
+      variables:
+        - name: image_tag
+          type: String
+          description: ""
+          required: false
+          value: <+pipeline.sequenceId>
+        - name: harness_service
+          type: String
+          description: ""
+          required: false
+          value: <+service.identifier>
+        - name: environment
+          type: String
+          description: ""
+          required: false
+          value: <+env.identifier>
+        - name: component
+          type: String
+          description: ""
+          required: false
+          value: frontend
+        - name: image_name
+          type: String
+          description: ""
+          required: false
+          value: docker.io/ajpahl1008/scala-hello-world-frontend
+      appsetConfigs:
+        - appset:
+            agentIdentifier: harnessgitopsagent
+            identifier: 9086f17a-c770-516b-b192-0f9cfed6a476
+            appSetIdentifier: scala-hello-world-frontend-appset
+  gitOpsEnabled: true
+  orgIdentifier: default
+  projectIdentifier: default

@@ -1,0 +1,79 @@
+service:
+  serviceDefinition:
+    type: Kubernetes
+    spec:
+      manifests:
+        - manifest:
+            identifier: ScalaBackend
+            type: ReleaseRepo
+            spec:
+              store:
+                type: Github
+                spec:
+                  connectorRef: account.githubharnessajp
+                  gitFetchType: Branch
+                  paths:
+                    - scala-hello/cluster-config/backend/<+env.identifier>/config.json
+                  branch: main
+                  repoName: argo-example-apps
+        - manifest:
+            identifier: BackendConfig
+            type: DeploymentRepo
+            spec:
+              store:
+                type: Github
+                spec:
+                  connectorRef: account.githubharnessajp
+                  gitFetchType: Branch
+                  paths:
+                    - scala-hello/appset/applicationset-backend.yaml
+                  branch: main
+                  repoName: argo-example-apps
+      artifacts:
+        primary:
+          primaryArtifactRef: ScalaBackend
+          sources:
+            - spec:
+                connectorRef: account.harnessdockerhubajp
+                imagePath: ajpahl1008/scala-hello-world-backend
+                tag: <+pipeline.sequenceId>
+                digest: ""
+              identifier: ScalaBackend
+              type: DockerRegistry
+      variables:
+        - name: image_tag
+          type: String
+          description: ""
+          required: false
+          value: <+pipeline.sequenceId>
+        - name: harness_service
+          type: String
+          description: ""
+          required: false
+          value: <+service.identifier>
+        - name: environment
+          type: String
+          description: ""
+          required: false
+          value: <+env.identifier>
+        - name: component
+          type: String
+          description: ""
+          required: false
+          value: backend
+        - name: image_name
+          type: String
+          description: ""
+          required: false
+          value: docker.io/ajpahl1008/scala-hello-world-backend
+      appsetConfigs:
+        - appset:
+            agentIdentifier: harnessgitopsagent
+            identifier: 9d0f0583-75ca-5535-a405-ca1cdf9db243
+            appSetIdentifier: scala-hello-world-backend-appset
+  gitOpsEnabled: true
+  orgIdentifier: default
+  projectIdentifier: default
+  identifier: Scala_Hello_World_Backend
+  tags: {}
+  name: Scala Hello World - Backend
