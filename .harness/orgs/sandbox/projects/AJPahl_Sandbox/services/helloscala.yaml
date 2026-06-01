@@ -1,0 +1,9 @@
+service:
+  name: hello-scala
+  identifier: helloscala
+  serviceDefinition:
+    type: Kubernetes
+    spec: {}
+  gitOpsEnabled: true
+  orgIdentifier: sandbox
+  projectIdentifier: AJPahl_Sandbox
