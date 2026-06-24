@@ -26,8 +26,9 @@ kubectl create namespace argocd
 
 # 2. Apply the official manifests
 kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
-```
-NOTE:  For a specific version of ArgoCD, in the URL, replace "stable" with a version.  For example v3.3.1.
+-- or a version specific download -- 
+kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/v3.3.1/install.yaml
+
 ```
 # 3. Port forward ArgoCD Server
 kubectl port-forward svc/argocd-server -n argocd 8081:443
