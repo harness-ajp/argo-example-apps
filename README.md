@@ -29,7 +29,6 @@ kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/st
 -- or a version specific download -- 
 kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/v3.3.1/install.yaml
 
-```
 # 3. Port forward ArgoCD Server
 kubectl port-forward svc/argocd-server -n argocd 8081:443
 
