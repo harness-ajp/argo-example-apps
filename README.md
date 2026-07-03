@@ -27,16 +27,19 @@ kubectl create namespace argocd
 # 2. Apply the official manifests
 kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
 -- or a version specific download -- 
-kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/v3.3.1/install.yaml
+kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/v3.3.11/install.yaml
 
-# 3. Port forward ArgoCD Server
+# 3. Modify labels so GitOps Agent can communicate with Redis Cache
+./redis-network-policy.sh
+
+# 4. Port forward ArgoCD Server
 kubectl port-forward svc/argocd-server -n argocd 8081:443
 
-# 4. Secure Password for Argo
+# 5. Secure Password for Argo
 kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d; echo
 ```
 
-#5. Login to ArgoCD UI [https://localhost:8081](https://localhost:8081)
+#6. Login to ArgoCD UI [https://localhost:8081](https://localhost:8081)
 
 Login ID: admin
 Passord: (See Step 4)
