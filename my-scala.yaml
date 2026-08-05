@@ -11,7 +11,7 @@ spec:
     path: scala-hello                                              # Folder with YAMLs
   destination:
     server: 'https://kubernetes.default.svc'                     # Local cluster
-    namespace: scala-app
+    namespace: argo-sandbox
   syncPolicy:
     automated:
       prune: true    # Deletes stuff in K8s if you delete it from Git
