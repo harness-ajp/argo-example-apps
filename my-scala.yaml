@@ -2,7 +2,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: my-scala
-  namespace: scala-app
+  namespace: argocd
 spec:
   project: default
   source:
