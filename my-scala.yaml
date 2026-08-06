@@ -8,7 +8,7 @@ spec:
   source:
     repoURL: 'git@github.com:harness-ajp/argo-example-apps.git' # Your repo
     targetRevision: HEAD
-    path: scala-hello                                              # Folder with YAMLs
+    path: scala-hello/base                                              # Folder with YAMLs
   destination:
     server: 'https://kubernetes.default.svc'                     # Local cluster
     namespace: argo-sandbox
