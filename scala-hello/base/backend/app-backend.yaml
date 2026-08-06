@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
       - name: backend
-        image: docker.io/ajpahl1008/scala-hello-world-backend:11
+        image: docker.io/ajpahl1008/scala-hello-world-backend:17
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 8080

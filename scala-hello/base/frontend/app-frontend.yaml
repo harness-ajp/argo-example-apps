@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
       - name: frontend
-        image: docker.io/ajpahl1008/scala-hello-world-frontend:11
+        image: docker.io/ajpahl1008/scala-hello-world-frontend:17
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 3000
