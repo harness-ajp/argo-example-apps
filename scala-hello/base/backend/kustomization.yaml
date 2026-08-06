@@ -3,4 +3,4 @@ kind: Kustomization
 
 resources:
 - app-backend.yaml
-- argo-rollouts.yaml
+# - argo-rollouts.yaml
