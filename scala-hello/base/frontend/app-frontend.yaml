@@ -60,12 +60,11 @@ metadata:
     app: scala-hello-world
     component: frontend
 spec:
-  type: LoadBalancer
-  ports:
-  - port: 80
-    targetPort: 3000
-    protocol: TCP
-    name: http
+  type: ClusterIP          # Changed from LoadBalancer
   selector:
     app: scala-hello-world
     component: frontend
+  ports:
+    - port: 80
+      targetPort: 8080     # Adjust if your frontend uses a different port
+      protocol: TCP
