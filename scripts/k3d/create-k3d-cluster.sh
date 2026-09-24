@@ -47,6 +47,52 @@ K3S_IMAGE="${K3S_IMAGE:-}"   # optional pin, e.g. "rancher/k3s:v1.28.5-k3s1"
 STABLE_COUNT="${STABLE_COUNT:-15}"       # how many stable releases to list
 PRERELEASE_COUNT="${PRERELEASE_COUNT:-6}" # how many RC/pre-releases to list
 
+# ---- Corporate TLS-interception CA (Zscaler) -------------------------------
+# Harness laptops sit behind Zscaler, which MITMs outbound TLS and re-signs
+# it with its own CA. Rancher Desktop's Lima VM trusts that CA (macOS syncs
+# Keychain certs into the VM), which is why a plain `docker pull` works --
+# but each k3d node is a *nested* container running its own separate
+# containerd, with its own separate cert store that does NOT inherit the
+# VM's trust. Worse, that inner store gets regenerated on every node
+# restart, so patching it live (docker exec + append to
+# /etc/ssl/certs/ca-certificates.crt) doesn't stick.
+#
+# Fix: hand k3s a registries.yaml with an explicit ca_file for the
+# registries you pull from, and mount both the CA and that config file in
+# at cluster-creation time via k3d's --volume/--registry-config flags --
+# a real bind mount, not a live edit, so it survives node restarts.
+#
+# Export the CA once with:
+#   security find-certificate -c "Zscaler Root CA" -p /Library/Keychains/System.keychain > ~/zscaler-root.pem
+ZSCALER_CA="${ZSCALER_CA:-$HOME/zscaler-root.pem}"
+REGISTRY_CA_MOUNT="/etc/certs/zscaler-root.pem"
+REGISTRIES_YAML=""
+
+if [[ -f "${ZSCALER_CA}" ]]; then
+  REGISTRIES_YAML="$(mktemp)"
+  cat > "${REGISTRIES_YAML}" <<EOF
+configs:
+  "registry.k8s.io":
+    tls:
+      ca_file: "${REGISTRY_CA_MOUNT}"
+  "docker.io":
+    tls:
+      ca_file: "${REGISTRY_CA_MOUNT}"
+  "ghcr.io":
+    tls:
+      ca_file: "${REGISTRY_CA_MOUNT}"
+  "quay.io":
+    tls:
+      ca_file: "${REGISTRY_CA_MOUNT}"
+EOF
+  echo "Found Zscaler CA at ${ZSCALER_CA} -- trusting it for registry.k8s.io, docker.io, ghcr.io, quay.io pulls."
+else
+  echo "Note: no Zscaler CA found at ${ZSCALER_CA}. If you're on the Harness" >&2
+  echo "      network, image pulls inside the cluster may fail with" >&2
+  echo "      'x509: certificate signed by unknown authority'. Export it with:" >&2
+  echo "      security find-certificate -c \"Zscaler Root CA\" -p /Library/Keychains/System.keychain > ${ZSCALER_CA}" >&2
+fi
+
 # ---- Preflight checks -------------------------------------------------------
 if ! command -v k3d >/dev/null 2>&1; then
   echo "ERROR: k3d is not installed. Install it with: brew install k3d" >&2
@@ -201,10 +247,18 @@ CREATE_ARGS=(
 if [[ -n "${K3S_IMAGE}" ]]; then
   CREATE_ARGS+=(--image "${K3S_IMAGE}")
 fi
+if [[ -n "${REGISTRIES_YAML}" ]]; then
+  CREATE_ARGS+=(
+    --volume "${ZSCALER_CA}:${REGISTRY_CA_MOUNT}@server:*;agent:*"
+    --registry-config "${REGISTRIES_YAML}"
+  )
+fi
 
 echo "Creating k3d cluster '${CLUSTER_NAME}' (${SERVERS} server + ${AGENTS} agents)${K3S_IMAGE:+, image ${K3S_IMAGE}}..."
 
 k3d cluster create "${CREATE_ARGS[@]}"
+
+[[ -n "${REGISTRIES_YAML}" ]] && rm -f "${REGISTRIES_YAML}"
 
 # ---- Force a reachable server address into the kubeconfig -----------------
 # Belt-and-suspenders: in some environments k3d writes "0.0.0.0" into the
